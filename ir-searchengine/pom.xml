@@ -4,7 +4,7 @@
   <groupId>com.ir.searchengine</groupId>
   <artifactId>ir-searchengine</artifactId>
   <packaging>jar</packaging>
-  <version>1.0-SNAPSHOT</version>
+  <version>1.0</version>
   <name>ir-searchengine</name>
   <url>http://maven.apache.org</url>
   <dependencies>
@@ -14,5 +14,28 @@
       <version>3.8.1</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+    <groupId>org.apache.lucene</groupId>
+      <artifactId>lucene-core</artifactId>
+      <version>10.2.1</version>
+    </dependency>
+    <dependency>
+    <groupId>org.apache.lucene</groupId>
+      <artifactId>lucene-queryparser</artifactId>
+      <version>10.2.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.lucene</groupId>
+      <artifactId>lucene-analysis-common</artifactId>
+      <version>10.2.1</version>
+    </dependency>
+    <dependency>
+    <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.2</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
+
+
 </project>
