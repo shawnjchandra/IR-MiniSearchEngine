@@ -1,5 +1,10 @@
 package com.ir.searchengine;
 
+import java.io.IOException;
+import java.util.List;
+
+import com.ir.searchengine.preprocess.Preprocess;
+
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -33,6 +38,19 @@ public class AppTest
      */
     public void testApp()
     {
-        assertTrue( true );
+        String text = "Lucene is a powerful text search engine library written in Java.";
+        List<String> tokens;
+        try {
+            tokens = Preprocess.tokenize(text);
+            System.out.println(tokens);
+            List<String> expected = List.of("lucene","is","a", "powerful", "text", "search", "engine", "library", "written", "in","java");
+    
+
+            assertEquals(expected, tokens);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }    
+        
     }
 }
