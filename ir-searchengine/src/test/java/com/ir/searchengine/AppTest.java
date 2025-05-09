@@ -1,6 +1,7 @@
 package com.ir.searchengine;
 
 import java.io.IOException;
+import java.io.ObjectInputFilter.Config;
 import java.util.List;
 
 import com.ir.searchengine.preprocess.Preprocess;
@@ -38,10 +39,14 @@ public class AppTest
      */
     public void testApp()
     {
+        
+
         String text = "Lucene is a powerful text search engine library written in Java.";
         List<String> tokens;
         try {
-            tokens = Preprocess.tokenize(text);
+
+            Preprocess preprocess = new Preprocess();
+            tokens = preprocess.tokenize(text);
             System.out.println(tokens);
             List<String> expected = List.of("lucene","is","a", "powerful", "text", "search", "engine", "library", "written", "in","java");
     
