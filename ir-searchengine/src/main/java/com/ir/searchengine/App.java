@@ -67,7 +67,7 @@ public class App
             }else {
                 // Masukin document yang bakal di index
                 try (DirectoryStream<Path> stream = Files.newDirectoryStream(docsDirectoryPath, "*.txt")){
-                    System.out.println("a- "+stream);
+          
                     for (Path filePath : stream){
                         String content = Files.readString(filePath);
                         DocumentParser.ParsedDocument parsed = DocumentParser.parse(content);

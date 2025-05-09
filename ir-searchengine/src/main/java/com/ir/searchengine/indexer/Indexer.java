@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
 
 public class Indexer {
     private IndexWriter indexWriter;
-    private static final Logger logger = LoggerFactory.getLogger(Indexer.class);
+    // private static final Logger logger = LoggerFactory.getLogger(Indexer.class);
 
     public Indexer(Directory indexDirectory, Analyzer analyzer) {
         
