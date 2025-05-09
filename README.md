@@ -1,10 +1,15 @@
 # IR-MiniSearchEngine (Branch: maven)
 
+## Clone Repository
+```bash
+git clone -b maven https://github.com/shawnjchandra/IR-MiniSearchEngine.git
+```
+
 ## Lokasi Dokumen
 - Dokumen Scopus dan lainnya terletak di folder:  
   `ir-searchengine/docs`
 
-  ## Lokasi Dokumen
+## Lokasi Dokumen
 - Dokumen index terletak di folder:  
   `ir-searchengine/index`
 
