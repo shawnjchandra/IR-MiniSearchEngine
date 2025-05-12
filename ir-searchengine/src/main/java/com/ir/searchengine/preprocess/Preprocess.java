@@ -11,27 +11,25 @@ import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 
 
 public class Preprocess {
-    private Analyzer analyzer;
+    private static Analyzer analyzer;
 
-    public Preprocess() {
+    static {
         try {
-            this.analyzer = CustomAnalyzer.getCustomAnalyzer();
+            analyzer = CustomAnalyzer.getCustomAnalyzer();
         } catch (IOException e) {
             // TODO Auto-generated catch block
-            System.out.println("Analyzer error");
             e.printStackTrace();
         }
     }
 
-    public List<String> tokenize(String text) throws IOException  {
+    public static List<String> tokenize(String field, String text) throws IOException  {
 
         List<String> tokens = new ArrayList<>();
         
-        try (TokenStream tokenStream = this.analyzer.tokenStream("field", new StringReader(text))){
+        try (TokenStream tokenStream = Preprocess.analyzer.tokenStream(field, new StringReader(text))){
             CharTermAttribute termAttribute = tokenStream.addAttribute(CharTermAttribute.class);
 
             tokenStream.reset();
-            
 
             // System.out.println("Tokens: ");
             while (tokenStream.incrementToken()) {
