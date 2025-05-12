@@ -3,28 +3,97 @@ package com.ir.searchengine.util;
 import java.io.File;
 
 public class FileCleaner {
-    public static void clearIndexDirectory(String indexPath){
-        File indexDir = new File(indexPath);
+    // public static void clearIndexDirectory(String indexPath){
+    //     File indexDir = new File(indexPath);
 
-        if(indexDir.exists() && indexDir.isDirectory()){
-            deleteFilesRecursive(indexDir);
-        }
+    //     if(indexDir.exists() && indexDir.isDirectory()){
+    //         deleteFilesRecursive(indexDir);
+    //     }
+    // }
+
+    public static boolean clearIndexDirectory(String indexPath) {
+    
+    System.gc();
+    
+    if (indexPath == null || indexPath.isEmpty()) {
+        System.err.println("Index directory path is not configured");
+        return false;
     }
+    File indexDir = new File(indexPath);
 
-    private static void deleteFilesRecursive(File file){
-        if (file.isDirectory()){
-            File[] files = file.listFiles();
-            if (files != null){
-                for (File f : files){
-                    deleteFilesRecursive(f);
+    // Cek kalo ada pathnya
+    if (!indexDir.exists()) {
+        indexDir.mkdirs();
+        System.out.println("Directory has been created");
+        return true;
+    }
+    
+    // Cek kalo tipenya directory ato bukan
+    if (!indexDir.isDirectory()) {
+        System.err.println("Index Path exist but not a directory");
+        return false;
+    }
+    
+    boolean success = true;
+    File[] files = indexDir.listFiles();
+    if (files != null) {
+        for (File file : files) {
+            // System.err.println("File name " + file.getName());
+                    // System.err.println("Can write: " + file.canWrite());
+            if (file.isDirectory()) {
+                success &= deleteDirectoryContents(file);
+                if (!file.delete()) {
+                    System.err.println("Failed to delete directory: " + file.getAbsolutePath());
+                    success = false;
+                }
+            } else {
+                if (!file.delete()) {
+                    System.err.println("Failed to delete file: " + file.getAbsolutePath());
+                    System.err.println("File exists: " + file.exists());
+                    System.err.println("Can write: " + file.canWrite());
+                    success = false;
                 }
             }
-        }else{
-            file.delete();
-
         }
-        
     }
+    
+    return success;
+}
+    // private static void deleteFilesRecursive(File file){
+    //     if (file.isDirectory()){
+    //         File[] files = file.listFiles();
+    //         if (files != null){
+    //             for (File f : files){
+    //                 deleteFilesRecursive(f);
+    //             }
+    //         }
+    //     }else{
+    //         file.delete();
+
+    //     }
+        
+    // }
+    private static boolean deleteDirectoryContents(File directory) {
+    boolean success = true;
+    File[] files = directory.listFiles();
+    if (files != null) {
+        for (File file : files) {
+            if (file.isDirectory()) {
+                success &= deleteDirectoryContents(file);
+                if (!file.delete()) {
+                    System.err.println("Failed to delete file (directory) : "+ file.getName());
+                    success = false;
+                }
+            } else {
+                if (!file.delete()) {
+                    System.err.println("Failed to delete file: " + file.getName());
+                    success = false;
+                }
+            }
+        }
+    }
+    return success;
+}
 }
 
 
