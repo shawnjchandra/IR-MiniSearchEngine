@@ -56,6 +56,35 @@ public class AppTest
         //     // TODO Auto-generated catch block
         //     e.printStackTrace();
         // }    
+
+        // IndexSearcher searcher = new IndexSearcher(indexReader);
+
+            // TopDocs allDocs = searcher.search(new MatchAllDocsQuery(), indexReader.numDocs());
+            // StoredFields storeFields = searcher.storedFields();
+
+            // System.out.println("Total documents in index"+ allDocs.totalHits.value());
+            // for (ScoreDoc scoreDoc : allDocs.scoreDocs){
+            //     Document doc = storeFields.document(scoreDoc.doc);
+            //     System.out.println("----------");
+            //     String title = doc.get("TITLE");
+            //     String body = doc.get("BODY");
+
+            //         TokenStream tokenStream = CustomAnalyzer.getCustomAnalyzer().tokenStream("body", new StringReader(body));
+            //     CharTermAttribute attr = tokenStream.addAttribute(CharTermAttribute.class);
+
+            //     // Reset the TokenStream before reading tokens
+            //     tokenStream.reset();
+
+            //     // Print out the tokens from the BODY field
+            //     System.out.println("BODY (Tokenized via Analyzer): ");
+            //     while (tokenStream.incrementToken()) {
+            //         System.out.println(attr.toString());
+            //     }
+
+            //     // End the token stream processing
+            //     tokenStream.end();
+            //     tokenStream.close();
+            // }
         
     }
 }
