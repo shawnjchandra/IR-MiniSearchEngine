@@ -15,14 +15,15 @@ import org.slf4j.LoggerFactory;
 
 public class Indexer {
     private IndexWriter indexWriter;
+    private IndexWriterConfig indexWriterConfig;
     // private static final Logger logger = LoggerFactory.getLogger(Indexer.class);
 
     public Indexer(Directory indexDirectory, Analyzer analyzer) {
         
-        IndexWriterConfig indexWriterConfig = new IndexWriterConfig(analyzer);
+        this.indexWriterConfig = new IndexWriterConfig(analyzer);
         
         try {
-            this.indexWriter = new IndexWriter(indexDirectory, indexWriterConfig);
+            this.indexWriter = new IndexWriter(indexDirectory, this.indexWriterConfig);
         } catch (IOException e) {
            
             System.out.println("Failed index writer");
@@ -33,14 +34,15 @@ public class Indexer {
    public void indexNewDocument(String title, String body) throws IOException{
         Document document = new Document();
 
-
         // System.out.println("Title: " + title);
         // System.out.println("Body: " + body);
-        document.add(new TextField("TITLE",title, Field.Store.YES));
+        if(title != null){
+            document.add(new TextField("TITLE",title, Field.Store.YES));
+        }
         document.add(new TextField("BODY",body, Field.Store.YES));
 
         indexWriter.addDocument(document);
-        indexWriter.commit();
+        // indexWriter.commit();
    }
 
     public void close() throws IOException{
