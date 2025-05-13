@@ -2,12 +2,15 @@ package com.ir.searchengine.searching;
 
 import java.io.IOException;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
 import org.apache.lucene.index.LeafReaderContext;
 
+import com.ir.searchengine.App;
+import com.ir.searchengine.preprocess.DocumentParser;
 import com.ir.searchengine.searching.DocumentData.InnerDocumentData;
 
 /*
@@ -31,12 +34,12 @@ public class VSM extends RankCalculation  {
     }
 
     @Override
-    public Queue<Double> processRanking(DocumentData query) {
+    public Queue<DocumentScore> processRanking(DocumentData query) {
         
         Map<Integer, InnerDocumentData> documents = this.rc.data.getDocuments();
         Map<Integer, InnerDocumentData> queryData = query.getDocuments();
 
-        System.out.println(documents.size() +" "+queryData.size());
+        // System.out.println(documents.size() +" "+queryData.size());
         
         if (documents.isEmpty() || queryData.isEmpty()){
             System.out.println("Neither data nor documents is avaialble");
@@ -52,12 +55,13 @@ public class VSM extends RankCalculation  {
             ranking.offer(new DocumentScore(docId, dot_product));
         }
 
-        Queue<Double> scoreQueue = new LinkedList<>();
+        Queue<DocumentScore> scoreQueue = new LinkedList<>();
         while (!ranking.isEmpty()) {
             DocumentScore docScore = ranking.poll();
             
             // System.out.println(docScore.docId +" "+ docScore.score);
-            scoreQueue.offer(docScore.score);
+            scoreQueue.add(docScore);
+            
         }
 
         return scoreQueue;
@@ -79,7 +83,7 @@ public class VSM extends RankCalculation  {
                     double document_weight = termEntry.getValue();
                     
                     if (query_Term_Weight.containsKey(term)){
-                        System.out.println(term+" : "+document_weight+" "+query_Term_Weight.get(term));
+                        // System.out.println(term+" : "+document_weight+" "+query_Term_Weight.get(term));
                         dot_product += document_weight * query_Term_Weight.get(term);
                     }
                 }
@@ -88,6 +92,8 @@ public class VSM extends RankCalculation  {
 
         return dot_product;
     }
+
+    
 
 
 

@@ -1,6 +1,9 @@
 package com.ir.searchengine.searching;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
@@ -11,6 +14,9 @@ import org.apache.lucene.index.Terms;
 import org.apache.lucene.index.TermsEnum;
 import org.apache.lucene.search.DocIdSetIterator;
 import org.apache.lucene.util.BytesRef;
+
+import com.ir.searchengine.App;
+import com.ir.searchengine.preprocess.DocumentParser;
 
 import lombok.Data;
 import lombok.Getter;
@@ -46,7 +52,7 @@ public class RankCalculation {
     }
 
 
-    public Queue<Double> processRanking(DocumentData other){
+    public Queue<DocumentScore> processRanking(DocumentData other){
         return null;
     }
 
@@ -96,20 +102,41 @@ public class RankCalculation {
         documentData.startProcess(maxDoc);
 
         // Debugging
-        System.out.println(documentData.toString());
+        // System.out.println(documentData.toString());
         // System.out.println(documentData);
 
        this.data = documentData;
  
     };
+    
+    public static String getTopKDocs(int k,Queue<DocumentScore> scores, Map<Integer, DocumentParser.ParsedDocument> parsedDocuments){
+        StringBuilder sb = new StringBuilder();
+        // Max Length
+            int maxPreview = 5;
+            sb.append("Top ").append(maxPreview).append(" Ranked Documents: \n");
+            
+            int totalDocs = parsedDocuments.size();
+            int minimumDocs = Math.max(0 ,totalDocs - k);
 
-    protected class DocumentScore{
-        int docId;
-        double score;
+            for(DocumentScore doc : scores){
+                sb.append("-".repeat(maxPreview)).append("\n");
+                
+                int id = doc.getDocId();
+                double score = doc.getScore();
+                String preview = parsedDocuments.get(id).body.split("\\s+",maxPreview+1).length > maxPreview ? 
+                String.join(" ", Arrays.copyOfRange(parsedDocuments.get(id).body.split("\\s+"),0 , maxPreview)) + "..." :
+                parsedDocuments.get(id).body; 
+                
+                sb.append("Document ID : ").append(id).append(", Score : ").append(String.format("%.4f\n", score));
+                sb.append("Preview : ").append(preview).append("...\n");
+                
+                k--;
+                if (k < minimumDocs) break;
+            }
+            sb.append("-".repeat(maxPreview)).append("\n");
 
-        DocumentScore(int docId, double score) {
-            this.docId = docId;
-            this.score = score;
-        }
+        return sb.toString();
     }
+    
+
 }
