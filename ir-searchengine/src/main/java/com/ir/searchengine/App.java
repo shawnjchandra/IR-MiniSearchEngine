@@ -6,7 +6,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Queue;
 import java.util.Scanner;
 
@@ -14,17 +16,8 @@ import com.ir.searchengine.indexer.Indexer;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.index.DirectoryReader;
-import org.apache.lucene.index.Fields;
-import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.index.LeafReader;
 import org.apache.lucene.index.LeafReaderContext;
-import org.apache.lucene.index.PostingsEnum;
-import org.apache.lucene.index.Terms;
-import org.apache.lucene.index.TermsEnum;
-import org.apache.lucene.search.DocIdSetIterator;
 import org.apache.lucene.store.FSDirectory;
-import org.apache.lucene.util.BytesRef;
-import org.apache.lucene.util.BytesRefArray;
 import org.apache.lucene.store.Directory;
 
 import com.ir.searchengine.preprocess.CustomAnalyzer;
@@ -32,6 +25,7 @@ import com.ir.searchengine.preprocess.DocumentParser;
 import com.ir.searchengine.searching.BM25;
 import com.ir.searchengine.searching.CustomQuery;
 import com.ir.searchengine.searching.DocumentData;
+import com.ir.searchengine.searching.DocumentScore;
 import com.ir.searchengine.searching.RankCalculation;
 import com.ir.searchengine.searching.VSM;
 import com.ir.searchengine.util.Config;
@@ -47,10 +41,12 @@ public class App
     private final static String docsPath = Config.get("document.directory");
     private static String indexPath;
     private static String queryPath;
+    private static Map<Integer, DocumentParser.ParsedDocument> parsedDocuments;
 
     public static void main( String[] args )
     {
         try {
+
 
             /* @Setup - Start */
             indexPath = Config.get("index.directory") != null ? Config.get("index.directory") : /*CustomPath implement*/ "";
@@ -67,6 +63,7 @@ public class App
 
             // Bikin custom anaylzer dengan stopwords
             Analyzer analyzer = CustomAnalyzer.getCustomAnalyzer();
+            
             
             /* @Setup - End */ 
 
@@ -96,20 +93,25 @@ public class App
             RankCalculation processedQuery = processDataIndex(queryDirectoryReader);
             RankCalculation processedDocument = processDataIndex(indexDirectoryReader);
 
-
+            Queue<DocumentScore> scores;
             // Proses yang dokumen
             if (method.equals("vsm")){
                 VSM processedVSM = new VSM(processedDocument);
         
-                Queue<Double> scores = processedVSM.processRanking(processedQuery.getData());
-                
+                scores = processedVSM.processRanking(processedQuery.getData());
+
             }else {
                 BM25 processedBm25 = new BM25(processedDocument);
-                processedBm25.processRanking(processedQuery.getData());
+        
+                scores = processedBm25.processRanking(processedQuery.getData());
+        
             }
 
-            // processedDocument.score(processedQuery.getData())
-            // processedDocument.processRanking(processedQuery.getData());
+            // Get top k Docs
+            String result = RankCalculation.getTopKDocs(3, scores, App.parsedDocuments);
+
+            // Print out result
+            System.out.println(result);;
 
 
         } catch (IOException e) {
@@ -139,13 +141,18 @@ public class App
                 if (!Files.exists(sourceDirectoryPath)){
                         System.err.println("Docs directory doesnt exist: "+ sourceDirectoryPath);
                     }else {
+                        int i = 0;
+                        App.parsedDocuments = new HashMap<>();
+
                         // Masukin document yang bakal di index
                         try (DirectoryStream<Path> stream = Files.newDirectoryStream(sourceDirectoryPath, "*.txt")){
-                
+                            
                             for (Path filePath : stream){
                                 String content = Files.readString(filePath);
                                 DocumentParser.ParsedDocument parsed = DocumentParser.parse(content);
+                                App.parsedDocuments.put(i, parsed);
                                 indexer.indexNewDocument(parsed.title, parsed.body);
+                                i++;
             
                             }
                         } catch (Exception e) {
@@ -167,28 +174,29 @@ public class App
 
     static String startQuery(Scanner scanner, Indexer indexer) throws Exception{
         String input, method;
-        int val;
-        System.out.print("How many queries do you want to do (default: 1) :");
+
+
 
         
-        val = Integer.parseInt(scanner.nextLine());
-        if( val == 0 ) return null;
-        
+
         CustomQuery customQuery;
         List<CustomQuery> list = new ArrayList<>();
-        while (val > 0) {
+
             System.out.print("\nType what you want here (use 'stop' to end the process) : ");
             input = scanner.nextLine().toLowerCase();
             
             customQuery = new CustomQuery(input);
             list.add(customQuery);
             
-            if(input.isEmpty() || input.toLowerCase().equals("stop")){
-                break;
-            }
+            if(input.isEmpty()){
+                return new Exception("Input empty").toString();
+
+            } 
             
-            val--;
-        }
+            if (input.toLowerCase().equals("stop")){
+                return "Stop Process...";
+            }
+    
 
         System.out.print("\nProcessing...");
  
@@ -202,7 +210,7 @@ public class App
         if (method.equals("vsm") ||method.equals("bm25")){
             return method;
         } else {
-            throw new Exception("Method is not allowed");
+            throw new Exception("Method is not allowed or you have stopped");
         }
 
     }
@@ -214,7 +222,6 @@ public class App
             // Polymorphism untuk metode SVM dan BM25
             RankCalculation rc = new RankCalculation(null);
             
-            int i =0;
             // Iterasi untuk setiap segmen (docs nya juga)
             for (LeafReaderContext leaf : leaves){
                 // rc = new RankCalculation(leaf);
@@ -222,7 +229,6 @@ public class App
                 rc.init();
                 // System.out.println(i);
                 // System.out.println("di processed data index"+ rc.getData().getDocuments().size());
-                i++;
             }
             
             // SVM svm = new SVM(rc);
