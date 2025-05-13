@@ -10,8 +10,6 @@ import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.store.Directory;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class Indexer {
     private IndexWriter indexWriter;
@@ -33,9 +31,7 @@ public class Indexer {
    
    public void indexNewDocument(String title, String body) throws IOException{
         Document document = new Document();
-
-        // System.out.println("Title: " + title);
-        // System.out.println("Body: " + body);
+        
         if(title != null){
             document.add(new TextField("TITLE",title, Field.Store.YES));
         }
