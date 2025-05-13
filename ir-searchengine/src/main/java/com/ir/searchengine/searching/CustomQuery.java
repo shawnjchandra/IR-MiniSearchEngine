@@ -33,7 +33,7 @@ public class CustomQuery {
             
             e.printStackTrace();
         }
-        System.out.println(result);
+
         return result.toString();
     }
 

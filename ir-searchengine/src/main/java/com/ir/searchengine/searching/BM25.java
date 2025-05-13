@@ -22,7 +22,7 @@ public class BM25 extends RankCalculation {
     // }
 
 
-    public Queue<Double> processRanking(DocumentData other) {
+    public Queue<DocumentScore> processRanking(DocumentData other) {
         // TODO Auto-generated method stub
         return super.processRanking( other);
     }
