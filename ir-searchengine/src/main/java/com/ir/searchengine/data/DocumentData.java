@@ -1,4 +1,4 @@
-package com.ir.searchengine.searching;
+package com.ir.searchengine.data;
 
 import java.security.KeyStore.Entry;
 import java.util.Arrays;
@@ -19,7 +19,7 @@ public class DocumentData {
 
     @Data
     @Getter
-    protected class InnerDocumentData {
+    public class InnerDocumentData {
         private final String[] config = Config.get("document.settings.print").split(",");
         private Map<String, Boolean> settings;
         

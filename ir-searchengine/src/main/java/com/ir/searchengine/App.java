@@ -15,6 +15,8 @@ import java.util.Scanner;
 import com.ir.searchengine.indexer.Indexer;
 
 import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.analysis.core.KeywordAnalyzer;
+import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.LeafReaderContext;
 import org.apache.lucene.store.FSDirectory;
@@ -78,6 +80,11 @@ public class App
 
             /* Setup untuk Query */ 
             Directory queryDirectory = FSDirectory.open(Paths.get(queryPath));
+
+            // Indexer dengan analyzer nonstopwords
+            // Non-filtered analyzer
+            // indexer = new Indexer(queryDirectory, new KeywordAnalyzer());
+            //Filtered out analyzer
             indexer = new Indexer(queryDirectory, analyzer);
             
             // Start Query Process

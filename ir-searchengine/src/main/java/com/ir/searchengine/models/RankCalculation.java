@@ -123,6 +123,7 @@ public class RankCalculation {
                 
                 int id = doc.getDocId();
                 double score = doc.getScore();
+                
                 String preview = parsedDocuments.get(id).body.split("\\s+",maxPreview+1).length > maxPreview ? 
                 String.join(" ", Arrays.copyOfRange(parsedDocuments.get(id).body.split("\\s+"),0 , maxPreview)) + "..." :
                 parsedDocuments.get(id).body; 

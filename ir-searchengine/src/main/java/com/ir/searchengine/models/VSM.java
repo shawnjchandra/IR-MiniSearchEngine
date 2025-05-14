@@ -1,4 +1,4 @@
-package com.ir.searchengine.searching;
+package com.ir.searchengine.models;
 
 import java.io.IOException;
 import java.util.LinkedList;
@@ -10,8 +10,10 @@ import java.util.Queue;
 import org.apache.lucene.index.LeafReaderContext;
 
 import com.ir.searchengine.App;
+import com.ir.searchengine.data.DocumentData;
+import com.ir.searchengine.data.DocumentScore;
+import com.ir.searchengine.data.DocumentData.InnerDocumentData;
 import com.ir.searchengine.preprocess.DocumentParser;
-import com.ir.searchengine.searching.DocumentData.InnerDocumentData;
 
 /*
     Bikin tf, dft ,tf-idf 
