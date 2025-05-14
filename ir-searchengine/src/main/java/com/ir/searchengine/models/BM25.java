@@ -1,9 +1,12 @@
-package com.ir.searchengine.searching;
+package com.ir.searchengine.models;
 
 import java.io.IOException;
 import java.util.PriorityQueue;
 import java.util.Queue;
 import org.apache.lucene.index.LeafReaderContext;
+
+import com.ir.searchengine.data.DocumentData;
+import com.ir.searchengine.data.DocumentScore;
 
 
 public class BM25 extends RankCalculation {

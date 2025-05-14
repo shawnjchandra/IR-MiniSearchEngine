@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.ir.searchengine.util.Config;
+import com.ir.searchengine.core.Config;
 
 import lombok.Data;
 import lombok.Getter;

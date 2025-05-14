@@ -1,4 +1,4 @@
-package com.ir.searchengine.searching;
+package com.ir.searchengine.models;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -16,6 +16,8 @@ import org.apache.lucene.search.DocIdSetIterator;
 import org.apache.lucene.util.BytesRef;
 
 import com.ir.searchengine.App;
+import com.ir.searchengine.data.DocumentData;
+import com.ir.searchengine.data.DocumentScore;
 import com.ir.searchengine.preprocess.DocumentParser;
 
 import lombok.Data;
@@ -40,10 +42,6 @@ public class RankCalculation {
         this.data = new DocumentData();
     }
 
-    // public RankCalculation(RankCalculation rc) {
-    //     this.rc = rc;
-    //     this.data = new DocumentData();
-    // }
 
     public RankCalculation(LeafReaderContext leaf){
 
@@ -82,7 +80,9 @@ public class RankCalculation {
         
         // Iterasi untuk semua term yang ada di inverted index (dan juga frequencynya)
         while((term = termsEnum.next())!= null){
+
             String convertedString = term.utf8ToString();
+            
             PostingsEnum docs = termsEnum.postings(null, PostingsEnum.POSITIONS);
             
             int localDocId;

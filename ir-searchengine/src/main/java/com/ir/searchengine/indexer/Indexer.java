@@ -21,7 +21,7 @@ public class Indexer {
         this.indexWriterConfig = new IndexWriterConfig(analyzer);
         
         try {
-            this.indexWriter = new IndexWriter(indexDirectory, this.indexWriterConfig);
+            this.indexWriter = new IndexWriter(indexDirectory, indexWriterConfig);
         } catch (IOException e) {
            
             System.out.println("Failed index writer");

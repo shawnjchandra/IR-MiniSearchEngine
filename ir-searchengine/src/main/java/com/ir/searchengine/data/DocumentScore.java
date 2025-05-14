@@ -1,4 +1,4 @@
-package com.ir.searchengine.searching;
+package com.ir.searchengine.data;
 
 import lombok.Data;
 import lombok.Getter;
@@ -10,7 +10,7 @@ public class DocumentScore {
     public int docId;
     public double score;
 
-    DocumentScore(int docId, double score) {
+    public DocumentScore(int docId, double score) {
         this.docId = docId;
         this.score = score;
     }

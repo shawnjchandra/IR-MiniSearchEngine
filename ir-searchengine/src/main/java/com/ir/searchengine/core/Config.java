@@ -1,4 +1,4 @@
-package com.ir.searchengine.util;
+package com.ir.searchengine.core;
 
 import java.io.IOException;
 import java.io.InputStream;

@@ -12,7 +12,13 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.Scanner;
 
+import com.ir.searchengine.core.Config;
+import com.ir.searchengine.data.DocumentData;
+import com.ir.searchengine.data.DocumentScore;
 import com.ir.searchengine.indexer.Indexer;
+import com.ir.searchengine.models.BM25;
+import com.ir.searchengine.models.RankCalculation;
+import com.ir.searchengine.models.VSM;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.core.KeywordAnalyzer;
@@ -24,13 +30,7 @@ import org.apache.lucene.store.Directory;
 
 import com.ir.searchengine.preprocess.CustomAnalyzer;
 import com.ir.searchengine.preprocess.DocumentParser;
-import com.ir.searchengine.searching.BM25;
-import com.ir.searchengine.searching.CustomQuery;
-import com.ir.searchengine.searching.DocumentData;
-import com.ir.searchengine.searching.DocumentScore;
-import com.ir.searchengine.searching.RankCalculation;
-import com.ir.searchengine.searching.VSM;
-import com.ir.searchengine.util.Config;
+import com.ir.searchengine.query.CustomQuery;
 import com.ir.searchengine.util.FileCleaner;
 
 /**
@@ -54,6 +54,7 @@ public class App
             indexPath = Config.get("index.directory") != null ? Config.get("index.directory") : /*CustomPath implement*/ "";
 
             queryPath = Config.get("query.directory") != null ? Config.get("query.directory") : /* Custom Path Implementa */"";
+
             Path docsDirectoryPath = Paths.get(docsPath).toAbsolutePath();
             
             // Bersihin dulu untuk isi dari indexDirectory (supaya ga numpuk)
@@ -82,14 +83,17 @@ public class App
             Directory queryDirectory = FSDirectory.open(Paths.get(queryPath));
 
             // Indexer dengan analyzer nonstopwords
+
             // Non-filtered analyzer
             // indexer = new Indexer(queryDirectory, new KeywordAnalyzer());
+
             //Filtered out analyzer
             indexer = new Indexer(queryDirectory, analyzer);
             
             // Start Query Process
             String method = startQuery(sc, indexer);
 
+            /* Masuk ke Searching / Ranking */
 
             // DirectoryReader untuk buka si index directory
             DirectoryReader indexDirectoryReader = DirectoryReader.open(indexDirectory);
@@ -182,27 +186,23 @@ public class App
     static String startQuery(Scanner scanner, Indexer indexer) throws Exception{
         String input, method;
 
-
-
-        
-
         CustomQuery customQuery;
         List<CustomQuery> list = new ArrayList<>();
 
-            System.out.print("\nType what you want here (use 'stop' to end the process) : ");
-            input = scanner.nextLine().toLowerCase();
-            
-            customQuery = new CustomQuery(input);
-            list.add(customQuery);
-            
-            if(input.isEmpty()){
-                return new Exception("Input empty").toString();
+        System.out.print("\nType what you want here (use 'stop' to end the process) : ");
+        input = scanner.nextLine().toLowerCase();
+        
+        customQuery = new CustomQuery(input);
+        list.add(customQuery);
+        
+        if(input.isEmpty()){
+            return new Exception("Input empty").toString();
 
-            } 
-            
-            if (input.toLowerCase().equals("stop")){
-                return "Stop Process...";
-            }
+        } 
+        
+        if (input.toLowerCase().equals("stop")){
+            return "Stop Process...";
+        }
     
 
         System.out.print("\nProcessing...");
@@ -234,12 +234,9 @@ public class App
                 // rc = new RankCalculation(leaf);
                 rc.setLeaf(leaf);
                 rc.init();
-                // System.out.println(i);
-                // System.out.println("di processed data index"+ rc.getData().getDocuments().size());
+
             }
             
-            // SVM svm = new SVM(rc);
-            // BM25 bm25 = new BM25(rc);
             return rc;
     }
 
