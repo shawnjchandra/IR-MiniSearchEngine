@@ -37,4 +37,6 @@ public class CustomQuery {
     public List<String> getTokens() {
         return tokens;
     }
+
 }
+

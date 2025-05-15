@@ -27,5 +27,6 @@ replay_pid*
 # Ignore Build Folder
 ir-searchengine/target
 ir-searchengine/*.txt
-index/
+ir-searchengine\src\main\resources\config.properties
+ir-searchengine/index/
 query/

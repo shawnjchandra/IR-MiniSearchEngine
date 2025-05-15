@@ -87,8 +87,16 @@ public class RankCalculation {
             
             int localDocId;
             while ((localDocId = docs.nextDoc()) != DocIdSetIterator.NO_MORE_DOCS){
+                
+                // Mengambil jumlah frekuensi sebuah term dari posting list
+                /*
+                Note :
+                Cara kerja Postings List di Apache Lucene beda dari umumnya, Untuk mendapatkan jumlah term yang digunakan tidak bisa hanya diloop dan dijumlahkan, tapi perlu menggunakan .freq() atau jumlah frekuensi penggunaan term di dalam postings                
+                */ 
                 int freq = docs.freq();
-                // System.out.println(convertedString + " " + docBase +" "+freq);
+                
+
+
                 documentData.addData(docBase+localDocId, convertedString, freq);
                 
             }
@@ -102,7 +110,7 @@ public class RankCalculation {
         documentData.startProcess(maxDoc);
 
         // Debugging
-        // System.out.println(documentData.toString());
+        System.out.println(documentData.toString());
         // System.out.println(documentData);
 
        this.data = documentData;

@@ -25,18 +25,17 @@ public class DocumentData {
         
         Map<String, Double> tf;
         Map<String, Double> tf_idft;
-        Map<String, Double> cft;
+        
 
         public InnerDocumentData(){
             
             this.tf = new HashMap<>(); 
             this.tf_idft = new HashMap<>(); 
-            this.cft = new HashMap<>();
             
             this.settings = new HashMap<>();
 
             // DFT nya dipindahin keluar ,jadi i nya dari 1 
-            List<String> settingNames = Arrays.asList("dft", "tf", "idf", "cft", "tf_idft");
+            List<String> settingNames = Arrays.asList("dft", "tf", "idf", "ctf", "tf_idft");
             for (int i = 1; i < config.length; i++) {
                 this.settings.put(settingNames.get(i), Boolean.parseBoolean(config[i]));
             }
@@ -66,6 +65,7 @@ public class DocumentData {
             this.tf_idft.put(term, tf_idft_score/vector_norm );
         }
 
+
         @Override
         public String toString() {
             StringBuilder sb = new StringBuilder();
@@ -85,18 +85,7 @@ public class DocumentData {
 
             
 
-            if (!cft.isEmpty()) {
-                if (this.settings.get("cft")) {
-                    sb.append("cft : \n");
-                    for (Map.Entry<String, Double> entry : cft.entrySet()) {
-                        sb.append(" ").append(entry.getKey()).append(" : ").append(entry.getValue()).append("\n");
-                    }
-                } else {
-                    sb.append("cft print setting has been disabled\n");
-                }
-            } else {
-                sb.append("cft is empty\n");
-            }
+            
             if (!tf_idft.isEmpty()) {
                 if (this.settings.get("tf_idft")) {
                     sb.append("tf_idft : \n");
@@ -121,6 +110,7 @@ public class DocumentData {
     Map<String, Set<Integer>> termToDoc;
     Map<String, Integer> dft;
     Map<String, Double> idf;
+    Map<String, Double> ctf;
     
 
     public DocumentData() {
@@ -128,6 +118,7 @@ public class DocumentData {
         this.termToDoc = new HashMap<>(); 
         this.dft = new HashMap<>(); 
         this.idf = new HashMap<>(); 
+        this.ctf = new HashMap<>(); 
         
     }
 
@@ -143,6 +134,10 @@ public class DocumentData {
         
         // Masukin ke dft
         this.addToDFT(term, docId);
+
+        // Masukin ke ctf
+        this.addToCFT(term,freq);
+
      
     }
 
@@ -152,6 +147,7 @@ public class DocumentData {
         for (String term : termToDoc.keySet()){
             dft.put(term, termToDoc.get(term).size());
         }
+
         // Process idft
         standard_idf(totalDocs);
         // Test untuk pake idf lain
@@ -207,6 +203,11 @@ public class DocumentData {
             docSet.add(docId);
         }
         // System.out.println(term +" "+docSet.size());
+    }
+
+    // Collection Term Frequency
+    private void addToCFT(String term, int freq){
+        this.ctf.merge(term, (double)freq, Double::sum);
     }
 
     // Standard idf
@@ -283,6 +284,18 @@ public class DocumentData {
                 }
             } else {
                 sb.append("idf is empty\n");
+            }
+        if (!ctf.isEmpty()) {
+                if (Boolean.parseBoolean(this.config[3])) {
+                    sb.append("ctf : \n");
+                    for (Map.Entry<String, Double> entry : ctf.entrySet()) {
+                        sb.append(" ").append(entry.getKey()).append(" : ").append(entry.getValue()).append("\n");
+                    }
+                } else {
+                    sb.append("ctf print setting has been disabled\n");
+                }
+            } else {
+                sb.append("ctf is empty\n");
             }
 
         return sb.toString();
