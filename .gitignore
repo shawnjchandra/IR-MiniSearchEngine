@@ -28,5 +28,5 @@ replay_pid*
 ir-searchengine/target
 ir-searchengine/*.txt
 ir-searchengine\src\main\resources\config.properties
-index/
+ir-searchengine/index/
 query/
