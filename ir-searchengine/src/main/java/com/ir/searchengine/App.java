@@ -13,6 +13,7 @@ import java.util.Queue;
 import java.util.Scanner;
 
 import com.ir.searchengine.core.Config;
+import com.ir.searchengine.customQuery.CustomQuery;
 import com.ir.searchengine.data.DocumentData;
 import com.ir.searchengine.data.DocumentScore;
 import com.ir.searchengine.indexer.Indexer;
@@ -30,7 +31,6 @@ import org.apache.lucene.store.Directory;
 
 import com.ir.searchengine.preprocess.CustomAnalyzer;
 import com.ir.searchengine.preprocess.DocumentParser;
-import com.ir.searchengine.query.CustomQuery;
 import com.ir.searchengine.util.FileCleaner;
 
 /**

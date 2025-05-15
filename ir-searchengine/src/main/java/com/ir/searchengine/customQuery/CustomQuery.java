@@ -1,4 +1,4 @@
-package com.ir.searchengine.query;
+package com.ir.searchengine.customQuery;
 
 import java.io.IOException;
 import java.util.List;
