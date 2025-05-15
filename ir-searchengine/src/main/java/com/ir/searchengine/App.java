@@ -29,6 +29,7 @@ import org.apache.lucene.index.LeafReaderContext;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.store.Directory;
 
+import com.ir.searchengine.customQuery.CustomQuery;
 import com.ir.searchengine.preprocess.CustomAnalyzer;
 import com.ir.searchengine.preprocess.DocumentParser;
 import com.ir.searchengine.util.FileCleaner;
@@ -108,14 +109,11 @@ public class App
             // Proses yang dokumen
             if (method.equals("vsm")){
                 VSM processedVSM = new VSM(processedDocument);
-        
                 scores = processedVSM.processRanking(processedQuery.getData());
 
             }else {
                 BM25 processedBm25 = new BM25(processedDocument);
-        
-                scores = processedBm25.processRanking(processedQuery.getData());
-        
+                scores = processedBm25.processRanking(processedQuery.getData());      
             }
 
             // Get top k Docs

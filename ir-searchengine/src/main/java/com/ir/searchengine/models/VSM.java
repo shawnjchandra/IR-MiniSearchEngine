@@ -32,7 +32,6 @@ public class VSM extends RankCalculation  {
     public VSM (RankCalculation rc){
         this.rc = rc;
         ranking = new PriorityQueue<>((a, b) -> Double.compare(b.score, a.score));
-
     }
 
     @Override
@@ -94,9 +93,4 @@ public class VSM extends RankCalculation  {
 
         return dot_product;
     }
-
-    
-
-
-
 }

@@ -38,8 +38,5 @@ public class CustomQuery {
         return tokens;
     }
 
-    
-
-    
-
 }
+
