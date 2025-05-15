@@ -1,10 +1,5 @@
 package com.ir.searchengine;
 
-import java.io.IOException;
-import java.io.ObjectInputFilter.Config;
-import java.util.List;
-
-import com.ir.searchengine.preprocess.Preprocess;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
