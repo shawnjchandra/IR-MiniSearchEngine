@@ -8,12 +8,9 @@ import java.util.PriorityQueue;
 import java.util.Queue;
 
 import org.apache.lucene.index.LeafReaderContext;
-
-import com.ir.searchengine.App;
 import com.ir.searchengine.data.DocumentData;
 import com.ir.searchengine.data.DocumentScore;
 import com.ir.searchengine.data.DocumentData.InnerDocumentData;
-import com.ir.searchengine.preprocess.DocumentParser;
 
 /*
     Bikin tf, dft ,tf-idf 

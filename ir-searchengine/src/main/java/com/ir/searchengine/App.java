@@ -29,7 +29,6 @@ import org.apache.lucene.index.LeafReaderContext;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.store.Directory;
 
-import com.ir.searchengine.customQuery.CustomQuery;
 import com.ir.searchengine.preprocess.CustomAnalyzer;
 import com.ir.searchengine.preprocess.DocumentParser;
 import com.ir.searchengine.util.FileCleaner;
@@ -78,9 +77,9 @@ public class App
             // Call pertama kali untuk bikin index dari dokumen
             WriteToIndex(indexer, docsDirectoryPath, null);
 
-            Scanner sc = new Scanner(System.in);
-
+            
             /* Setup untuk Query */ 
+            Scanner sc = new Scanner(System.in);
             Directory queryDirectory = FSDirectory.open(Paths.get(queryPath));
 
             // Indexer dengan analyzer nonstopwords
@@ -102,17 +101,19 @@ public class App
             DirectoryReader queryDirectoryReader = DirectoryReader.open(queryDirectory);
             
             // Proses untuk masing - masing index dari document dan juga query
-            RankCalculation processedQuery = processDataIndex(queryDirectoryReader);
-            RankCalculation processedDocument = processDataIndex(indexDirectoryReader);
+            RankCalculation processedQuery = processDataIndex(queryDirectoryReader,"query");
+            RankCalculation processedDocument = processDataIndex(indexDirectoryReader,"non-query");
 
+            
             Queue<DocumentScore> scores;
             // Proses yang dokumen
             if (method.equals("vsm")){
                 VSM processedVSM = new VSM(processedDocument);
                 scores = processedVSM.processRanking(processedQuery.getData());
-
+                
             }else {
-                BM25 processedBm25 = new BM25(processedDocument);
+                int totalDocs = parsedDocuments.size();
+                BM25 processedBm25 = new BM25(processedDocument, totalDocs);
                 scores = processedBm25.processRanking(processedQuery.getData());      
             }
 
@@ -143,6 +144,7 @@ public class App
                 
                 for (CustomQuery query : queries){
                     String body = query.process();
+                    // System.out.println("Query : "+body);
                     indexer.indexNewDocument(null, body);
                 }
 
@@ -220,18 +222,20 @@ public class App
 
     }
 
-    static RankCalculation processDataIndex(DirectoryReader sourceDirectoryReader) throws IOException{
+    static RankCalculation processDataIndex(DirectoryReader sourceDirectoryReader, String type) throws IOException{
+
         // Ini untuk dapetin reader dari semua segmen (1 segmen = 300 docs) -> (_0 = 0-299)
             List<LeafReaderContext> leaves = sourceDirectoryReader.leaves();
 
-            // Polymorphism untuk metode SVM dan BM25
+            // Polymorphism untuk metode VSM dan BM25
             RankCalculation rc = new RankCalculation(null);
             
             // Iterasi untuk setiap segmen (docs nya juga)
             for (LeafReaderContext leaf : leaves){
                 // rc = new RankCalculation(leaf);
-                rc.setLeaf(leaf);
-                rc.init();
+                rc.wrap(leaf, type);
+                // rc.setLeaf(leaf);
+                // rc.init();
 
             }
             

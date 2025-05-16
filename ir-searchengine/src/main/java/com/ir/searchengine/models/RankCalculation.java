@@ -33,23 +33,28 @@ public class RankCalculation {
     protected RankCalculation rc;
     private double score;
 
-    public void setLeaf(LeafReaderContext leaf) {
-        this.leaf = leaf;
-    }
-
+    
     public RankCalculation() {
-
+        
         this.data = new DocumentData();
     }
-
-
+    
+    
     public RankCalculation(LeafReaderContext leaf){
-
+        
         this.data = new DocumentData();
         this.leaf = leaf;
     }
+    
+    public void wrap(LeafReaderContext leaf, String type) throws IOException{
+        setLeaf(leaf);
+        init(type);
+    }
 
-
+    private void setLeaf(LeafReaderContext leaf) {
+        this.leaf = leaf;
+    }
+    
     public Queue<DocumentScore> processRanking(DocumentData other){
         return null;
     }
@@ -58,7 +63,7 @@ public class RankCalculation {
     //     return 0.0;
     // };
 
-    public void init() throws IOException {
+    public void init(String type) throws IOException {
 
         // Buka leaf (segmen) reader
         LeafReader reader = this.leaf.reader();
@@ -82,6 +87,10 @@ public class RankCalculation {
         while((term = termsEnum.next())!= null){
 
             String convertedString = term.utf8ToString();
+
+            if(type.equals("query")){
+                System.out.println(convertedString);
+            }
             
             PostingsEnum docs = termsEnum.postings(null, PostingsEnum.POSITIONS);
             
@@ -102,6 +111,7 @@ public class RankCalculation {
             }
             
         }
+        System.out.println();
 
         // Ambil total jumlah dokumen untuk proses selanjutnya
         int maxDoc = reader.maxDoc();
@@ -110,7 +120,7 @@ public class RankCalculation {
         documentData.startProcess(maxDoc);
 
         // Debugging
-        System.out.println(documentData.toString());
+        // System.out.println(documentData.toString());
         // System.out.println(documentData);
 
        this.data = documentData;
