@@ -1,0 +1,3 @@
+Cybersecurity is a growing concern as more systems become connected 
+and data-driven. AI is used to detect anomalies, analyze threats, and 
+respond to attacks faster than traditional methods, enhancing digital security.

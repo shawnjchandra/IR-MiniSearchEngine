@@ -1,0 +1,3 @@
+Ethical concerns in artificial intelligence include bias in algorithms, 
+transparency, and accountability. Developers must ensure that AI systems 
+are fair, explainable, and aligned with human values to avoid unintended consequences.

@@ -1,0 +1,3 @@
+Recent advancements in AI and data science have accelerated 
+innovations in autonomous vehicles. Self-driving cars rely on sensors, 
+machine learning models, and decision-making algorithms to navigate safely in traffic.

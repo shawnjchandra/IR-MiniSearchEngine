@@ -1,0 +1,3 @@
+Machine learning, a subset of artificial intelligence, enables computers to learn 
+from data and improve over time without explicit programming. Applications include 
+recommendation systems, fraud detection, and medical diagnosis.

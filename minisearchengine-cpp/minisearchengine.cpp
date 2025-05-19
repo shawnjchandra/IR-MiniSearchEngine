@@ -18,6 +18,7 @@ unordered_map<string, double> idf;
 vector<string> documents;
 vector<string> filenames;
 
+//ambil stopwords dari resources/stopwords.txt
 void load_stopwords(const string &filename) {
     ifstream file(filename);
     string word;
@@ -26,6 +27,7 @@ void load_stopwords(const string &filename) {
     }
 }
 
+//lowercase semua, buang tanda baca, dan buang stopwords
 vector<string> tokenize(const string &text) {
     vector<string> tokens;
     string word;
@@ -45,6 +47,7 @@ vector<string> tokenize(const string &text) {
     return tokens;
 }
 
+//ambil semua dokumen dari resources/docs
 void read_documents(const string &folder) {
     for (const auto &entry : fs::directory_iterator(folder)) {
         if (entry.path().extension() == ".txt") {
@@ -57,6 +60,7 @@ void read_documents(const string &folder) {
     }
 }
 
+//indexing dengan format: term -> {docid -> tfidf yang sudah ternormalisasi}
 void build_idx() {
     int N = documents.size();
     vector<unordered_map<string, int>> tfs(N);
@@ -85,28 +89,28 @@ void build_idx() {
             norm += weight * weight;
         }
         norm = sqrt(norm);
-        if (norm == 0.0) norm = 1e-10; // prevent division by zero
+        if (norm == 0.0) norm = 1e-10;
         for (auto &[term, weight] : tfidf) {
             idx[term][i] = weight / norm;
         }
     }
 }
 
+//scoring dokumen, query juga di tokenize dan diindex
 vector<pair<int, double>> score_documents(const string &query, int total_docs) {
     unordered_map<string, double> query_tf;
     auto tokens = tokenize(query);
     for (auto &term : tokens) {
-        query_tf[term]++;
+        if(idx.count(term)) {
+            query_tf[term] = 1;
+        }
     }
 
     unordered_map<string, double> tfidf_query;
     double norm = 0.0;
     for (auto &[term, freq] : query_tf) {
-        if (idf.count(term)) {
-            double weight = freq * idf[term];
-            tfidf_query[term] = weight;
-            norm += weight * weight;
-        }
+        tfidf_query[term] = freq;
+        norm += freq * freq;
     }
 
     norm = sqrt(norm);

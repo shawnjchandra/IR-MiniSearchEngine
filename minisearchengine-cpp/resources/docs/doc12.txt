@@ -1,0 +1,4 @@
+The Internet of Things (IoT) connects devices to the internet, 
+enabling data collection and remote control. When combined with AI, 
+IoT systems become smarter, allowing predictive maintenance and automated 
+decision-making in industries.

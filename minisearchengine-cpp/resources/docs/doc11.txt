@@ -1,0 +1,4 @@
+Natural language processing allows machines to understand 
+and generate human language. It powers applications such as chatbots, 
+translation tools, and voice assistants like Siri or Alexa, improving 
+interaction between humans and machines.

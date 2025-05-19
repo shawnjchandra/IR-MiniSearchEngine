@@ -1,0 +1,3 @@
+Cloud computing and AI are often used together to deliver scalable, 
+intelligent applications. Platforms like Google Cloud and AWS provide AI 
+services such as natural language processing, image recognition, and predictive analytics.
