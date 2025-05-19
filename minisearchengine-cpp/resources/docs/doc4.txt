@@ -1,0 +1,2 @@
+Information retrieval is the process of obtaining relevant information from a 
+collection of resources.

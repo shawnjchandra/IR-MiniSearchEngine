@@ -1,0 +1,1 @@
+Machine learning can enhance information retrieval by learning from user behavior.

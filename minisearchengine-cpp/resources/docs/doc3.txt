@@ -1,0 +1,8 @@
+Artificial Intelligence (AI) refers to the simulation of human intelligence 
+in machines that are programmed to think and learn. AI systems can perform tasks 
+that typically require human cognition, such as recognizing speech, making decisions, 
+or translating languages. There are two types: narrow AI, which is designed for 
+specific tasks, and general AI, which aims to replicate full human intelligence. 
+As AI technology evolves, it holds potential in fields like healthcare, finance, 
+transportation, and education, but also raises ethical concerns about job displacement 
+and data privacy.
