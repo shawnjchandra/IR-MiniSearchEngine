@@ -7,26 +7,31 @@ import java.util.List;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;
-import org.apache.lucene.analysis.StopwordAnalyzerBase;
-import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 
 
 public class Preprocess {
-    
+    private static Analyzer analyzer;
 
-    public static List<String> tokenize(String text) throws IOException  {
-        Analyzer analyzer = CustomAnalyzer.getCustomAnalyzer();
-        System.out.println(analyzer);
+    static {
+        try {
+            analyzer = CustomAnalyzer.getCustomAnalyzer();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    public static List<String> tokenize(String field, String text) throws IOException  {
+
         List<String> tokens = new ArrayList<>();
         
-        try (TokenStream tokenStream = analyzer.tokenStream("field", new StringReader(text))){
+        try (TokenStream tokenStream = Preprocess.analyzer.tokenStream(field, new StringReader(text))){
             CharTermAttribute termAttribute = tokenStream.addAttribute(CharTermAttribute.class);
 
             tokenStream.reset();
-            
 
-            System.out.println("Tokens: ");
+            // System.out.println("Tokens: ");
             while (tokenStream.incrementToken()) {
                 // System.out.println(termAttribute.toString());
                 tokens.add(termAttribute.toString());
