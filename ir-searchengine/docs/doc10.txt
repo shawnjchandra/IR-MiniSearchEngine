@@ -1,0 +1,3 @@
+Title: AI in Agriculture
+
+Smart farming tools powered by AI optimize irrigation, monitor crops, and predict yields, supporting sustainable agriculture practices.
