@@ -18,6 +18,7 @@ Untuk menjalankan project ini, gunakan perintah berikut:
 
 ```bash
 java -jar .\project.jar
+```
 
 Link ke Branch Main (source code) : [Maven - Main](https://github.com/shawnjchandra/IR-MiniSearchEngine)
 Link ke Branch CPP (source code) : [CPP](https://github.com/shawnjchandra/IR-MiniSearchEngine/tree/cpp)
