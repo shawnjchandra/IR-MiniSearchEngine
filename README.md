@@ -17,6 +17,12 @@ Folder `docs` **tidak boleh dihapus atau hilang**, karena nanti pasti error kala
 Untuk menjalankan project ini, gunakan perintah berikut:
 
 ```bash
+git clone --single-branch --branch jar https://github.com/shawnjchandra/IR-MiniSearchEngine.git
+```
+lalu
+
+```bash
+cd .\IR-MiniSearchEngine\
 java -jar .\search-engine.jar
 ```
 
