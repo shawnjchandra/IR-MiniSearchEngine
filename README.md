@@ -1,36 +1,30 @@
-# IR-MiniSearchEngine (Branch: maven)
+Project Documentation
 
-## Clone Repository
-```bash
-git clone -b maven https://github.com/shawnjchandra/IR-MiniSearchEngine.git
-```
+Deskripsi
+Project ini menggunakan folder docs sebagai directory scopus yang berisi dokumen-dokumen dengan format tertentu.
 
-## Lokasi Dokumen
-- Dokumen Scopus dan lainnya terletak di folder:  
-  `ir-searchengine/docs`
+Struktur Dokumen
+Setiap dokumen dalam folder docs memiliki format sebagai berikut:
+Title: <title>
+<body>
 
-## Lokasi Dokumen
-- Dokumen index terletak di folder:  
-  `ir-searchengine/index`
+⚠️ PERINGATAN PENTING
+Folder docs TIDAK BOLEH DIHAPUS atau dipindahkan!
+Folder ini berisi data penting yang dibutuhkan untuk menjalankan aplikasi dengan benar.
+Cara Menjalankan Project
+Untuk menjalankan project ini, gunakan perintah berikut:
+bashjava -jar .\project.jar
+Requirements
 
-## Build dan Testing
-Untuk membuild aplikasi dari awal dan menjalankan semua test, gunakan command berikut:
+Java Runtime Environment (JRE) terinstall di sistem
+File project.jar tersedia di directory yang sama
+Folder docs harus tetap berada di lokasi yang benar
 
-```bash
-mvn clean install
-```
-
-## Jalankan Program
-Untuk menjalankan aplikasi bisa menggunakan command berikut :
-
-```bash
-mvn exec:java
-```
-
-## Jalankan jar
-Untuk jalankan jarnya 
-```bash
-java --add-modules jdk.incubator.vector -jar target/ir-searchengine-1.0-jar-with-dependencies.jar
-```
-
-**Tapi yang jarnya nanti ta coba lagi lah wkwkwkw, rada", warningnya juga **
+Struktur Project
+project/
+├── docs/           # Directory scopus (JANGAN DIHAPUS!)
+│   ├── doc1.txt
+│   ├── doc2.txt
+│   └── ...
+├── project.jar     # File executable
+└── README.md       # File ini
