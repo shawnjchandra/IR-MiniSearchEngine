@@ -10,7 +10,7 @@ Title: <judul_dokumen>
 ```
 
 ⚠️ **Penting:**  
-Folder `docs` **tidak boleh dihapus atau hilang**, karena merupakan bagian penting dari sistem.
+Folder `docs` **tidak boleh dihapus atau hilang**, karena nanti pasti error kalau dijalanin
 
 ## Menjalankan Project
 
