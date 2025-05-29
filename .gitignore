@@ -30,3 +30,4 @@ ir-searchengine/*.txt
 ir-searchengine\src\main\resources\config.properties
 ir-searchengine/index/
 query/
+target/
