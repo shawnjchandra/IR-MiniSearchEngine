@@ -1,4 +1,4 @@
-# Project Scopus Document Directory
+# Project Information Retrieval Mini Search Engine (Ver. Maven jar)
 
 Folder `docs` merupakan direktori utama yang menyimpan dokumen-dokumen Scopus.
 
