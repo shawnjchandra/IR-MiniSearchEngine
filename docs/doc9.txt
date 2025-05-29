@@ -1,0 +1,3 @@
+Title: The Ethics of AI
+
+As AI becomes more powerful, ethical concerns grow. From bias in algorithms to surveillance, the debate over responsible AI is intensifying.

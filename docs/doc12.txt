@@ -1,0 +1,3 @@
+Title: AI in Art
+
+Neural networks are now creating paintings, composing music, and writing poetry, blurring the lines between human and machine creativity.
