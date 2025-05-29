@@ -100,7 +100,7 @@ public class BM25 extends RankCalculation {
     // Hitung threshold: jumlah minimal term yang harus cocok agar dianggap relevan
     int minMatch = (int) Math.ceil(queryTerms.size() / 2.0);
     if (minMatch < 1) minMatch = 1;
-    System.out.println("minimal match "+minMatch);
+    // System.out.println("minimal match "+minMatch);
 
     // Map dokumen ke jumlah query term yang cocok
     Map<Integer, Integer> docToMatchedTerm = new HashMap<>();
@@ -121,7 +121,7 @@ public class BM25 extends RankCalculation {
         }
     }
 
-    System.out.println("Dokumen relevan (ID): " + relevantDocs);
+    // System.out.println("Dokumen relevan (ID): " + relevantDocs);
 
     // Hitung r_t: berapa dokumen relevan yang mengandung setiap term dari query
     Map<String, Integer> termToRelevantCount = new HashMap<>();
@@ -138,9 +138,9 @@ public class BM25 extends RankCalculation {
     }
 
     // Cetak hasil r_t
-    for (String term : queryTerms) {
-        System.out.println("Term: " + term + ", r_t: " + termToRelevantCount.get(term));
-    }
+    // for (String term : queryTerms) {
+    //     System.out.println("Term: " + term + ", r_t: " + termToRelevantCount.get(term));
+    // }
 }
 
     
@@ -174,7 +174,7 @@ public class BM25 extends RankCalculation {
                 double weight_term = getWeightTerm(term);
 
                 double numerator = tf * (k + 1) * weight_term;
-                System.out.println("numerator : "+ queryTerm.getKey() +" "+tf +" "+ weight_term);
+                // System.out.println("numerator : "+ queryTerm.getKey() +" "+tf +" "+ weight_term);
 
                 double denominator = tf + k * (1 - b ) + b * (docLength / avgDocLength);
                 // score += idf * (numerator / denominator);

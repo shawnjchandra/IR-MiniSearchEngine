@@ -88,9 +88,9 @@ public class RankCalculation {
 
             String convertedString = term.utf8ToString();
 
-            if(type.equals("query")){
-                System.out.println(convertedString);
-            }
+            // if(type.equals("query")){
+            //     System.out.println(convertedString);
+            // }
             
             PostingsEnum docs = termsEnum.postings(null, PostingsEnum.POSITIONS);
             
@@ -128,31 +128,37 @@ public class RankCalculation {
     };
     
     public static String getTopKDocs(int k,Queue<DocumentScore> scores, Map<Integer, DocumentParser.ParsedDocument> parsedDocuments){
+        
+
         StringBuilder sb = new StringBuilder();
         // Max Length
-            int maxPreview = 5;
-            sb.append("Top ").append(maxPreview).append(" Ranked Documents: \n");
-            
-            int totalDocs = parsedDocuments.size();
-            int minimumDocs = Math.max(0 ,totalDocs - k);
+            // int maxPreview = 5;
+            sb.append("Top ").append(k).append(" Ranked Documents: \n");
 
+            int count = 0;
+
+            
             for(DocumentScore doc : scores){
-                sb.append("-".repeat(maxPreview)).append("\n");
+                if(count >= k) break; // Stop after processing k documents
+
+                sb.append("-".repeat(k)).append("\n");
                 
                 int id = doc.getDocId();
                 double score = doc.getScore();
                 
-                String preview = parsedDocuments.get(id).body.split("\\s+",maxPreview+1).length > maxPreview ? 
-                String.join(" ", Arrays.copyOfRange(parsedDocuments.get(id).body.split("\\s+"),0 , maxPreview)) + "..." :
+                String preview = parsedDocuments.get(id).body.split("\\s+",k+1).length > k ? 
+                String.join(" ", Arrays.copyOfRange(parsedDocuments.get(id).body.split("\\s+"),0 , k)) + "..." :
+
                 parsedDocuments.get(id).body; 
                 
-                sb.append("Document ID : ").append(id).append(", Score : ").append(String.format("%.4f\n", score));
-                sb.append("Preview : ").append(preview).append("...\n");
+                String title = parsedDocuments.get(id).title;
+
+                sb.append("Document Title\t: ").append(title).append("\nScore\t\t: ").append(String.format("%.4f\n", score));
+                sb.append("Preview\t\t: ").append(preview).append("\n");
                 
-                k--;
-                if (k < minimumDocs) break;
+                count++;
             }
-            sb.append("-".repeat(maxPreview)).append("\n");
+            sb.append("-".repeat(k)).append("\n");
 
         return sb.toString();
     }

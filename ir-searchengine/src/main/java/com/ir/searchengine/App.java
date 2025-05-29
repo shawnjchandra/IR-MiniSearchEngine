@@ -21,6 +21,9 @@ import com.ir.searchengine.models.BM25;
 import com.ir.searchengine.models.RankCalculation;
 import com.ir.searchengine.models.VSM;
 
+import java.util.logging.Logger;
+import java.util.logging.Level;
+
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.core.KeywordAnalyzer;
 import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
@@ -44,9 +47,12 @@ public class App
     private static String indexPath;
     private static String queryPath;
     private static Map<Integer, DocumentParser.ParsedDocument> parsedDocuments;
+    private static int k;
 
     public static void main( String[] args )
     {
+        Logger.getLogger("jdk.incubator.vector").setLevel(Level.SEVERE);
+
         try {
 
 
@@ -118,7 +124,7 @@ public class App
             }
 
             // Get top k Docs
-            String result = RankCalculation.getTopKDocs(3, scores, App.parsedDocuments);
+            String result = RankCalculation.getTopKDocs(App.k, scores, App.parsedDocuments);
 
             // Print out result
             System.out.println(result);;
@@ -207,12 +213,18 @@ public class App
 
         System.out.print("\nProcessing...");
  
+        
         // Tulis index query
         WriteToIndex(indexer, null, list);
         
+        Thread.sleep(1000);
         
-        System.out.print("\nSearch using -VSM- or -BM25- : ");
+        System.out.print("\n\nSearch using -VSM- or -BM25- : ");
         method = scanner.nextLine().toLowerCase();
+        
+        System.out.print("\nHow many documents (max 30) : ");
+        int num = scanner.nextInt();
+        App.k = Math.clamp(num, 0, 30);
 
         if (method.equals("vsm") ||method.equals("bm25")){
             return method;
