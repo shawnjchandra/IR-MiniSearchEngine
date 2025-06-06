@@ -1,4 +1,4 @@
-# Project Scopus Document Directory
+# Project Information Retrieval Mini Search Engine (Ver. Maven jar)
 
 Folder `docs` merupakan direktori utama yang menyimpan dokumen-dokumen Scopus.
 
@@ -17,7 +17,13 @@ Folder `docs` **tidak boleh dihapus atau hilang**, karena nanti pasti error kala
 Untuk menjalankan project ini, gunakan perintah berikut:
 
 ```bash
-java -jar .\project.jar
+git clone --single-branch --branch jar https://github.com/shawnjchandra/IR-MiniSearchEngine.git
+```
+lalu
+
+```bash
+cd .\IR-MiniSearchEngine\
+java -jar .\search-engine.jar
 ```
 
 Link ke Branch Main (source code) : [Maven - Main](https://github.com/shawnjchandra/IR-MiniSearchEngine)
