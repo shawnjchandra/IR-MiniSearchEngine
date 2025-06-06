@@ -3,14 +3,6 @@ package com.ir.searchengine.util;
 import java.io.File;
 
 public class FileCleaner {
-    // public static void clearIndexDirectory(String indexPath){
-    //     File indexDir = new File(indexPath);
-
-    //     if(indexDir.exists() && indexDir.isDirectory()){
-    //         deleteFilesRecursive(indexDir);
-    //     }
-    // }
-
     public static boolean clearIndexDirectory(String indexPath) {
     
     System.gc();
@@ -38,8 +30,6 @@ public class FileCleaner {
     File[] files = indexDir.listFiles();
     if (files != null) {
         for (File file : files) {
-            // System.err.println("File name " + file.getName());
-                    // System.err.println("Can write: " + file.canWrite());
             if (file.isDirectory()) {
                 success &= deleteDirectoryContents(file);
                 if (!file.delete()) {
@@ -59,20 +49,7 @@ public class FileCleaner {
     
     return success;
 }
-    // private static void deleteFilesRecursive(File file){
-    //     if (file.isDirectory()){
-    //         File[] files = file.listFiles();
-    //         if (files != null){
-    //             for (File f : files){
-    //                 deleteFilesRecursive(f);
-    //             }
-    //         }
-    //     }else{
-    //         file.delete();
 
-    //     }
-        
-    // }
     private static boolean deleteDirectoryContents(File directory) {
     boolean success = true;
     File[] files = directory.listFiles();

@@ -164,7 +164,7 @@ public class DocumentData {
 
             int entry = Integer.valueOf(key);
             Map<String, Double > map_term = this.documents.get(entry).getTf();
-            // System.out.println(map_term.size());
+  
             for (String term : map_term.keySet()){
                 double idft_score = idf.get(term);
                 val = this.documents.get(entry).tf_idft(term, idft_score);

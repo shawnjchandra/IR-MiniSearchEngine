@@ -88,6 +88,7 @@ public class RankCalculation {
 
             String convertedString = term.utf8ToString();
 
+            // Debug untuk query
             // if(type.equals("query")){
             //     System.out.println(convertedString);
             // }

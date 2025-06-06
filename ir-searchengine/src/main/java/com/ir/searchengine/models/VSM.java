@@ -36,8 +36,6 @@ public class VSM extends RankCalculation  {
         
         Map<Integer, InnerDocumentData> documents = this.rc.data.getDocuments();
         Map<Integer, InnerDocumentData> queryData = query.getDocuments();
-
-        // System.out.println(documents.size() +" "+queryData.size());
         
         if (documents.isEmpty() || queryData.isEmpty()){
             System.out.println("Neither data nor documents is avaialble");

@@ -244,10 +244,9 @@ public class App
             
             // Iterasi untuk setiap segmen (docs nya juga)
             for (LeafReaderContext leaf : leaves){
-                // rc = new RankCalculation(leaf);
+
                 rc.wrap(leaf, type);
-                // rc.setLeaf(leaf);
-                // rc.init();
+
 
             }
             
