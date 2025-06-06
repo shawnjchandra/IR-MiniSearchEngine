@@ -27,7 +27,7 @@ void load_stopwords(const string &filename) {
     }
 }
 
-//lowercase semua, buang tanda baca, dan buang stopwords
+//lowercase semua term, buang tanda baca, dan buang stopwords
 vector<string> tokenize(const string &text) {
     vector<string> tokens;
     string word;
@@ -96,21 +96,22 @@ void build_idx() {
     }
 }
 
-//scoring dokumen, query juga di tokenize dan diindex
+//scoring dokumen, query juga di tokenize dan dihitung TF-IDF-nya
 vector<pair<int, double>> score_documents(const string &query, int total_docs) {
     unordered_map<string, double> query_tf;
     auto tokens = tokenize(query);
     for (auto &term : tokens) {
         if(idx.count(term)) {
-            query_tf[term] = 1;
+            query_tf[term]++;
         }
     }
 
     unordered_map<string, double> tfidf_query;
     double norm = 0.0;
     for (auto &[term, freq] : query_tf) {
-        tfidf_query[term] = freq;
-        norm += freq * freq;
+        double weight = freq * idf[term];
+        tfidf_query[term] = weight;
+        norm += weight * weight;
     }
 
     norm = sqrt(norm);
@@ -119,7 +120,7 @@ vector<pair<int, double>> score_documents(const string &query, int total_docs) {
         tfidf_query[term] = weight / norm;
     }
 
-    // Hitung skor dot product
+    // Hitung skor dengan dot product
     unordered_map<int, double> scores;
     for (auto &[term, q_weight] : tfidf_query) {
         if (idx.count(term)) {
@@ -150,14 +151,35 @@ int main() {
     build_idx();
 
     string query;
-    cout << "Enter your query: ";
-    getline(cin, query);
 
-    auto results = score_documents(query, documents.size());
+    while(1) {
+        cout << "Enter your query: \n\"exit\" to exit the program\n";
+        getline(cin, query);
 
-    cout << "\nTop matching documents:\n";
-    for (auto &[doc_id, score] : results) {
-        cout << "Doc: " << filenames[doc_id] << " | Score: " << score << endl;
+        if(query == "exit") {
+            return 0;
+        }
+    
+        auto results = score_documents(query, documents.size());
+    
+        cout << "\nRanking:\n";
+        for (auto &[doc_id, score] : results) {
+            cout << "Doc: " << filenames[doc_id] << " | Score: " << score;
+    
+            ifstream file("resources/docs/" + filenames[doc_id]);
+            if (file) {
+                string text;
+                getline(file, text, '.');
+                file.close();
+    
+                if (!text.empty()) {
+                    cout << " | Cuplikan: " << text << ".";
+                }
+            }
+    
+            cout << endl;
+        }
+        cout << endl;
     }
 
     return 0;
