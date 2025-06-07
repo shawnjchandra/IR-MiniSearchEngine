@@ -28,9 +28,6 @@ mvn exec:java
 ```
 
 ## Jalankan jar
-Untuk jalankan jarnya 
-```bash
-java --add-modules jdk.incubator.vector -jar target/ir-searchengine-1.0-jar-with-dependencies.jar
-```
+Untuk mengeksekusi jar / executable dapat dilihat pada panduan di Branch Jar
 
-**Tapi yang jarnya nanti ta coba lagi lah wkwkwkw, rada", warningnya juga **
+Link ke Branch Jar (Maven build) : [Maven Build - jar](https://github.com/shawnjchandra/IR-MiniSearchEngine/tree/jar)
