@@ -1,2 +1,3 @@
-Information retrieval is the process of obtaining relevant information from a 
-collection of resources.
+Title: AI in Healthcare
+
+From diagnostics to robotic surgery, artificial intelligence is transforming the medical field. By analyzing vast datasets and learning from patient outcomes, AI systems help doctors make faster and more accurate decisions. Machine learning algorithms can now detect early signs of cancer in medical imaging with precision that often exceeds human radiologists. Predictive analytics help hospitals manage resources more efficiently, while AI-powered drug discovery accelerates the development of new treatments for rare diseases.
